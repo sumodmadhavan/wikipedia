@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{64981DDF-2CDC-455A-B9DA-F89A6CEB1D9F}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Sahaj.Wiki/Program.cs">
+    <Files>
+      <File FileName="Sahaj.Wiki/Program.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Sahaj.Wiki" expanded="True">
+            <Node name="Sahaj.Wiki" expanded="True">
+              <Node name="Dependencies" expanded="True" />
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.Sahaj.Wiki FirstBuild="True" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
