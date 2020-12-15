@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.808.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sahaj.Wiki", "Sahaj.Wiki\Sahaj.Wiki.csproj", "{64981DDF-2CDC-455A-B9DA-F89A6CEB1D9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sahaj.Wiki.Test", "Sahaj.Wiki.Test\Sahaj.Wiki.Test.csproj", "{ACD9DD31-6016-41D7-87B8-0476675A0A16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{64981DDF-2CDC-455A-B9DA-F89A6CEB1D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64981DDF-2CDC-455A-B9DA-F89A6CEB1D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64981DDF-2CDC-455A-B9DA-F89A6CEB1D9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACD9DD31-6016-41D7-87B8-0476675A0A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACD9DD31-6016-41D7-87B8-0476675A0A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACD9DD31-6016-41D7-87B8-0476675A0A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACD9DD31-6016-41D7-87B8-0476675A0A16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
