@@ -27,7 +27,7 @@ namespace Sahaj.Wiki
                                  .Select(i => i.Value.ToLower())
                                  .Where(s => !wordstoIgnore.Any(i => i.Equals(s)));
 
-                int m = 0;
+                int max = 0;
                 string answer = "";
                 for (int i = 0; i < sentences.Length; ++i)
                 {
@@ -45,14 +45,14 @@ namespace Sahaj.Wiki
                             score += word.Length;
                         }
                     }
-                    if (score > m)
+                    if (score > max)
                     {
                         foreach (var a in answerList)
                         {
                             if (sentence.Contains(a.ToLower()))
                             {
                                 answer = a;
-                                m = score;
+                                max = score;
                                 break;
                             }
                         }
