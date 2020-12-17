@@ -4,23 +4,15 @@ namespace Sahaj.Wiki
 {
     public abstract class WikiTemplate
     {
-        //private readonly string[] wordstoIgnore = { "whose", "which", "why" };
-        //abstract public string[] WordstoIgnore { get { return wordstoIgnore}; set; }
-        
-        private readonly string pattern = "[\\w-]*\\w+|\".+\"";
-        public virtual string Expression { get { return pattern; } }
-
-        private readonly string[] wordstoIgnore = { "whose", "which", "why" };
-        public virtual string[] WordstoIgnore { get { return wordstoIgnore; } }
-
-        public virtual SortedList<int, string> Result { get; set; }
-        
+        protected string pattern = "[\\w-]*\\w+|\".+\"";
+        protected string[] wordstoIgnore = { "whose", "which", "why" };
+        public virtual SortedList<int, Answer> Result { get; set; }
         protected List<Sentence> DatasetSentence;
         protected List<Question> DatasetQuestion;
         protected List<Answer> DatasetAnswer;
-        protected string Sentences;
-        protected string Questions;
-        protected string Answers;
+        public virtual string Sentences { get; set; }
+        public virtual string Questions { get; set; }
+        public virtual string Answers { get; set; }
         public abstract void ExtractSentences();
         public abstract void ExtractQuestions();
         public abstract void ExtractAnswers();

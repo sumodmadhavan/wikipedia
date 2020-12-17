@@ -4,12 +4,12 @@ namespace Sahaj.Wiki
 {
     public class ParagraphMatcher
     {
-        private WikiTemplate wikiTemplate = null;
+        private readonly WikiTemplate wikiTemplate = null;
         public ParagraphMatcher(WikiTemplate template)
         {
             wikiTemplate = template;
         }
-        public SortedList<int, string> Result()
+        public SortedList<int, Answer> Result()
         {
             wikiTemplate.Run();
             return wikiTemplate.Result;

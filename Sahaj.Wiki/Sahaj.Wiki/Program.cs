@@ -7,18 +7,16 @@ namespace Sahaj.Wiki
         
         static void Main(string[] args)
         {
-            //Console.WriteLine("Input Sentence");
-            //string[] sentences = Console.ReadLine().Split('.');
-            //Console.WriteLine("Input 5 Questions");
-            //string[] questions = new string[5];
-            //for (int i = 0; i < 5; ++i)
-            //    questions[i] = Console.ReadLine();
-            //Console.WriteLine("Input ; seperated Answers");
-            string[] answers = Console.ReadLine().Split(';');
-            //ParagraphMatching paragraphMatching = new ParagraphMatching();
-            //_ = paragraphMatching.AnalyzeText(sentences, questions, answers);
+            ProcessWiki processWiki = new ProcessWiki();
+            Console.WriteLine("Input Sentence");
+            processWiki.Sentences = Console.ReadLine();
+            Console.WriteLine("Input , Seperated Questions");
+            processWiki.Questions = Console.ReadLine();
+            Console.WriteLine("Input ; seperated Answers");
+            processWiki.Answers = Console.ReadLine();
 
-            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(new ProcessWiki());
+            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
+            var r = paragraphMatcher.Result();
 
 
         }
