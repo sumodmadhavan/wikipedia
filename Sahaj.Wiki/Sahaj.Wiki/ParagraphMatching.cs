@@ -10,6 +10,7 @@ namespace Sahaj.Wiki
         private readonly string[] wordstoIgnore = { "whose", "which", "why" };
         public ParagraphMatching()
         {
+            
         }
         //brute force implementation. Need improvement on Algo
         //ref : https://en.wikipedia.org/wiki/Hungarian_algorithm
@@ -22,7 +23,8 @@ namespace Sahaj.Wiki
             int initalIndex = 1;
             foreach (string eachQuestion in questions)
             {
-                var totalWords = Regex.Matches(eachQuestion, "[\\w-]*\\w+|\".+\"")
+                string pattern = "[\\w-]*\\w+|\".+\"";
+                var totalWords = Regex.Matches(eachQuestion, pattern)
                                  .Cast<Match>()
                                  .Select(i => i.Value.ToLower())
                                  .Where(s => !wordstoIgnore.Any(i => i.Equals(s)));
