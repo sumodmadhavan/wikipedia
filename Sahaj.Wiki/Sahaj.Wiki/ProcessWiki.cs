@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Sahaj.Wiki
 {
-    class ProcessWiki : WikiTemplate
+    public class ProcessWiki : WikiTemplate
     {
         private Sentence _sentence;
         private Question _question;
@@ -44,11 +44,22 @@ namespace Sahaj.Wiki
         }
         public override void Clean()
         {
-
+            if (DatasetSentence.Count>0)
+            {
+                DatasetSentence = null;
+            }
+            if (DatasetQuestion.Count > 0)
+            {
+                DatasetQuestion = null;
+            }
+            if (DatasetAnswer.Count > 0)
+            {
+                DatasetAnswer = null;
+            }
         }
         public override void ApplyAlgorithm()
         {
-            SortedList<int, Answer> sortedList = new SortedList<int, Answer>();
+            Result = new SortedList<int, Answer>();
             List<Answer> answerList = new List<Answer>(DatasetAnswer);
             int initalIndex = 1;
             foreach (Question question in DatasetQuestion)
@@ -91,12 +102,11 @@ namespace Sahaj.Wiki
                     }
                 }
                 answer.Data = answer.Data.Trim();
-                sortedList.Add(initalIndex, answer);
-                Console.WriteLine(answer);
+                Result.Add(initalIndex, answer);
+                Console.WriteLine(answer.Data);
                 answerList.Remove(answer);
                 initalIndex++;
             }
-            base.Result =  sortedList;
         }
     }
 }

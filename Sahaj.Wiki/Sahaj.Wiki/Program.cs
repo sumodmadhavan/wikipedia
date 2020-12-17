@@ -16,7 +16,7 @@ namespace Sahaj.Wiki
             processWiki.Answers = Console.ReadLine();
 
             ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
-            var r = paragraphMatcher.Result();
+            _ = paragraphMatcher.Result();
 
 
         }
