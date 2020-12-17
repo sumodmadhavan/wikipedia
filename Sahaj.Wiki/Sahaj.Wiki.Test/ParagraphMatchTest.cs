@@ -34,11 +34,11 @@ namespace Sahaj.Wiki.Test
             };
             ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
             var result = paragraphMatcher.Result();
-            Assert.AreEqual("Grévy's zebra and the mountain zebra", result[1].Data);
-            Assert.AreEqual("aims to breed zebras that are phenotypically similar to the quagga", result[2].Data);
-            Assert.AreEqual("horses and donkeys", result[3].Data);
-            Assert.AreEqual("the plains zebra, the Grévy's zebra and the mountain zebra", result[4].Data);
-            Assert.AreEqual("subgenus Hippotigris", result[5].Data);
+            Assert.AreEqual("Grévy's zebra and the mountain zebra", result["Which Zebras are endangered?"].Data);
+            Assert.AreEqual("aims to breed zebras that are phenotypically similar to the quagga", result["What is the aim of the Quagga Project?"].Data);
+            Assert.AreEqual("horses and donkeys", result["Which animals are some of their closest relatives?"].Data);
+            Assert.AreEqual("the plains zebra, the Grévy's zebra and the mountain zebra", result["Which are the three species of zebras?"].Data);
+            Assert.AreEqual("subgenus Hippotigris", result["Which subgenus do the plains zebra and the mountain zebra belong to?"].Data);
         }
     }
 }

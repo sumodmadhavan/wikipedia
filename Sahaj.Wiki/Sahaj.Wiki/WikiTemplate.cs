@@ -6,7 +6,7 @@ namespace Sahaj.Wiki
     {
         protected string pattern = "[\\w-]*\\w+|\".+\"";
         protected string[] wordstoIgnore = { "whose", "which", "why" };
-        public virtual SortedList<int, Answer> Result { get; set; }
+        public virtual Dictionary<string, Answer> Result { get; set; }
         protected List<Sentence> DatasetSentence;
         protected List<Question> DatasetQuestion;
         protected List<Answer> DatasetAnswer;

@@ -20,7 +20,7 @@ namespace Sahaj.Wiki
                 DatasetSentence = new List<Sentence>();
                 foreach (string sentence in sentences)
                 {
-                    _sentence = new Sentence(sentence);
+                    _sentence = new Sentence(sentence.Trim());
                     DatasetSentence.Add(_sentence);
                 }
             }
@@ -39,7 +39,7 @@ namespace Sahaj.Wiki
                 DatasetQuestion = new List<Question>();
                 foreach (string question in questions)
                 {
-                    _question = new Question(question);
+                    _question = new Question(question.Trim());
                     DatasetQuestion.Add(_question);
                 }
             }
@@ -58,7 +58,7 @@ namespace Sahaj.Wiki
                 DatasetAnswer = new List<Answer>();
                 foreach (string answer in answers)
                 {
-                    _answer = new Answer(answer);
+                    _answer = new Answer(answer.Trim());
                     DatasetAnswer.Add(_answer);
                 }
             }
@@ -88,9 +88,8 @@ namespace Sahaj.Wiki
         {
             try
             {
-                Result = new SortedList<int, Answer>();
+                Result = new Dictionary<string, Answer>();
                 List<Answer> answerList = new List<Answer>(DatasetAnswer);
-                int initalIndex = 1;
                 foreach (Question question in DatasetQuestion)
                 {
 
@@ -130,11 +129,10 @@ namespace Sahaj.Wiki
                             }
                         }
                     }
-                    answer.Data = answer.Data.Trim();
-                    Result.Add(initalIndex, answer);
+                    Result.Add(question.Data, answer);
                     Console.WriteLine(answer.Data);
                     answerList.Remove(answer);
-                    initalIndex++;
+                    
                 }
             }
             catch (Exception ex)

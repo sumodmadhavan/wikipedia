@@ -9,7 +9,7 @@ namespace Sahaj.Wiki
         {
             wikiTemplate = template;
         }
-        public SortedList<int, Answer> Result()
+        public Dictionary<string, Answer> Result()
         {
             wikiTemplate.Run();
             return wikiTemplate.Result;
