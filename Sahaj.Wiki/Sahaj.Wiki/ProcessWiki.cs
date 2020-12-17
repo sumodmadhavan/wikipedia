@@ -12,35 +12,62 @@ namespace Sahaj.Wiki
         private Answer _answer;
 
         
-        public override void ExtractSentences()
+        public override bool ExtractSentences()
         {
-            string[] sentences = base.Sentences.Split('.');
-            DatasetSentence = new List<Sentence>();
-            foreach (string sentence in sentences)
+            try
             {
-                _sentence = new Sentence(sentence);
-                DatasetSentence.Add(_sentence);
+                string[] sentences = base.Sentences.Split('.');
+                DatasetSentence = new List<Sentence>();
+                foreach (string sentence in sentences)
+                {
+                    _sentence = new Sentence(sentence);
+                    DatasetSentence.Add(_sentence);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
-        public override void ExtractQuestions()
+        public override bool ExtractQuestions()
         {
-            string[] questions = base.Questions.Split(',');
-            DatasetQuestion = new List<Question>();
-            foreach (string question in questions)
+            try
             {
-                _question = new Question(question);
-                DatasetQuestion.Add(_question);
+                string[] questions = base.Questions.Split(',');
+                DatasetQuestion = new List<Question>();
+                foreach (string question in questions)
+                {
+                    _question = new Question(question);
+                    DatasetQuestion.Add(_question);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
-        public override void ExtractAnswers()
+        public override bool ExtractAnswers()
         {
-            string[] answers = base.Answers.Split(';');
-            DatasetAnswer = new List<Answer>();
-            foreach (string answer in answers)
+            try
             {
-                _answer = new Answer(answer);
-                DatasetAnswer.Add(_answer);
+                string[] answers = base.Answers.Split(';');
+                DatasetAnswer = new List<Answer>();
+                foreach (string answer in answers)
+                {
+                    _answer = new Answer(answer);
+                    DatasetAnswer.Add(_answer);
+                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
         public override void Clean()
         {
@@ -57,56 +84,65 @@ namespace Sahaj.Wiki
                 DatasetAnswer = null;
             }
         }
-        public override void ApplyAlgorithm()
+        public override bool ApplyAlgorithm()
         {
-            Result = new SortedList<int, Answer>();
-            List<Answer> answerList = new List<Answer>(DatasetAnswer);
-            int initalIndex = 1;
-            foreach (Question question in DatasetQuestion)
+            try
             {
-                
-                var totalWords = Regex.Matches(question.Data, pattern)
-                                 .Cast<Match>()
-                                 .Select(i => i.Value.ToLower())
-                                 .Where(s => !wordstoIgnore.Any(i => i.Equals(s)));
-
-                int max = 0;
-                Answer answer = null;
-                for (int i = 0; i < DatasetSentence.Count; ++i)
+                Result = new SortedList<int, Answer>();
+                List<Answer> answerList = new List<Answer>(DatasetAnswer);
+                int initalIndex = 1;
+                foreach (Question question in DatasetQuestion)
                 {
-                    var sentence = DatasetSentence[i].Data.ToLower();
-                    int score = 0;
-                    foreach (var word in totalWords)
+
+                    var totalWords = Regex.Matches(question.Data, pattern)
+                                     .Cast<Match>()
+                                     .Select(i => i.Value.ToLower())
+                                     .Where(s => !wordstoIgnore.Any(i => i.Equals(s)));
+
+                    int max = 0;
+                    Answer answer = null;
+                    for (int i = 0; i < DatasetSentence.Count; ++i)
                     {
-                        if (sentence.IndexOf(word) >= 0)
+                        var sentence = DatasetSentence[i].Data.ToLower();
+                        int score = 0;
+                        foreach (var word in totalWords)
                         {
-                            score += word.Length;
-                        }
-                        // if plurals
-                        else if (sentence.IndexOf(word.TrimEnd('s')) >= 0)
-                        {
-                            score += word.Length;
-                        }
-                    }
-                    if (score > max)
-                    {
-                        foreach (Answer eachAnswer in DatasetAnswer)
-                        {
-                            if (sentence.Contains(eachAnswer.Data.ToLower()))
+                            if (sentence.IndexOf(word) >= 0)
                             {
-                                answer = eachAnswer;
-                                max = score;
-                                break;
+                                score += word.Length;
+                            }
+                            // if plurals
+                            else if (sentence.IndexOf(word.TrimEnd('s')) >= 0)
+                            {
+                                score += word.Length;
+                            }
+                        }
+                        if (score > max)
+                        {
+                            foreach (Answer eachAnswer in DatasetAnswer)
+                            {
+                                if (sentence.Contains(eachAnswer.Data.ToLower()))
+                                {
+                                    answer = eachAnswer;
+                                    max = score;
+                                    break;
+                                }
                             }
                         }
                     }
+                    answer.Data = answer.Data.Trim();
+                    Result.Add(initalIndex, answer);
+                    Console.WriteLine(answer.Data);
+                    answerList.Remove(answer);
+                    initalIndex++;
                 }
-                answer.Data = answer.Data.Trim();
-                Result.Add(initalIndex, answer);
-                Console.WriteLine(answer.Data);
-                answerList.Remove(answer);
-                initalIndex++;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            return true;
         }
     }
 }

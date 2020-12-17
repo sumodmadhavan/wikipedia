@@ -13,18 +13,24 @@ namespace Sahaj.Wiki
         public virtual string Sentences { get; set; }
         public virtual string Questions { get; set; }
         public virtual string Answers { get; set; }
-        public abstract void ExtractSentences();
-        public abstract void ExtractQuestions();
-        public abstract void ExtractAnswers();
-        public abstract void ApplyAlgorithm();
+        public abstract bool ExtractSentences();
+        public abstract bool ExtractQuestions();
+        public abstract bool ExtractAnswers();
+        public abstract bool ApplyAlgorithm();
         public abstract void Clean();
         public void Run()
         {
-            ExtractSentences();
-            ExtractQuestions();
-            ExtractAnswers();
-            ApplyAlgorithm();
-            Clean();
+            if (ExtractSentences())
+            {
+                if (ExtractQuestions())
+                {
+                    if (ExtractAnswers())
+                    {
+                        ApplyAlgorithm();
+                        Clean();
+                    }
+                }
+            }
         }
     }
 }
