@@ -16,6 +16,8 @@ namespace Sahaj.Wiki
         {
             try
             {
+                //base case
+                if (string.IsNullOrEmpty(Sentences)) return false;
                 string[] sentences = base.Sentences.Split('.');
                 DatasetSentence = new List<Sentence>();
                 foreach (string sentence in sentences)
@@ -35,6 +37,7 @@ namespace Sahaj.Wiki
         {
             try
             {
+                if (string.IsNullOrEmpty(Questions)) return false;
                 string[] questions = base.Questions.Split(',');
                 DatasetQuestion = new List<Question>();
                 foreach (string question in questions)
@@ -54,6 +57,7 @@ namespace Sahaj.Wiki
         {
             try
             {
+                if (string.IsNullOrEmpty(Answers)) return false;
                 string[] answers = base.Answers.Split(';');
                 DatasetAnswer = new List<Answer>();
                 foreach (string answer in answers)
