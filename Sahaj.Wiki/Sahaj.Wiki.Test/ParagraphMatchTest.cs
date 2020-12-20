@@ -7,8 +7,6 @@ namespace Sahaj.Wiki.Test
     [TestClass]
     public class ParagraphMatchTest
     {
-
-
         [TestMethod]
         [DataRow
            ("Zebras are several species of African equids (horse family) united by their distinctive black and white stripes." +
@@ -158,11 +156,12 @@ namespace Sahaj.Wiki.Test
         }
 
         [TestMethod]
-        [DeploymentItem("input","TestData")]
-        public void Test_for_Input_File_Match_TestcaseZebra()
+        [TestCategory("Smoke")]
+        [DeploymentItem("input", "TestData")]
+        public void Test_for_Input_File_Match_Testcase_input00()
         {
             ProcessWiki processWiki = new ProcessWiki();
-            
+
             int counter = 1;
             string line;
             string filePath = $@"{Path.GetFullPath(@"TestData")}/input00.txt";
@@ -190,7 +189,7 @@ namespace Sahaj.Wiki.Test
                 }
                 counter++;
             }
-            processWiki.Questions = string.Join(",",questionList);
+            processWiki.Questions = string.Join(",", questionList);
             file.Close();
             ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
             var result = paragraphMatcher.Result();
@@ -201,5 +200,49 @@ namespace Sahaj.Wiki.Test
             Assert.AreEqual("subgenus Hippotigris", result["Which subgenus do the plains zebra and the mountain zebra belong to?"].Data);
         }
 
+        [TestMethod]
+        [TestCategory("Smoke")]
+        [DeploymentItem("input", "TestData")]
+        public void Test_for_Input_File_Match_Testcase_input01()
+        {
+            ProcessWiki processWiki = new ProcessWiki();
+
+            int counter = 1;
+            string line;
+            string filePath = $@"{Path.GetFullPath(@"TestData")}/input01.txt";
+            List<string> questionList = new List<string>();
+            System.IO.StreamReader file =
+    new System.IO.StreamReader(filePath);
+            while ((line = file.ReadLine()) != null)
+            {
+                System.Console.WriteLine(line);
+                switch (counter)
+                {
+                    case 1:
+                        processWiki.Sentences = line.ToString();
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        questionList.Add(line.ToString().Trim());
+                        break;
+                    case 7:
+                        processWiki.Answers = line.ToString().Trim();
+                        break;
+                }
+                counter++;
+            }
+            processWiki.Questions = string.Join(",", questionList);
+            file.Close();
+            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
+            var result = paragraphMatcher.Result();
+            Assert.AreEqual("after the Roman withdrawal from Britain in the 5th century", result["When did the Welsh national identity emerge among the Celtic Britons?"].Data);
+            Assert.AreEqual("the growth of socialism and the Labour Party", result["What was Welsh Liberalism displaced by?"].Data);
+            Assert.AreEqual("Two-thirds", result["How much of the population lives in south Wales?"].Data);
+            Assert.AreEqual("the public sector, light and service industries and tourism", result["What does Wales' economy now depend on?"].Data);
+            Assert.AreEqual("1925", result["When was Plaid Cymru formed?"].Data);
+        }
     }
 }
