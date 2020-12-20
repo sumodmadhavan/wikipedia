@@ -55,10 +55,10 @@ namespace Sahaj.Wiki.Test
         [TestMethod]
         [DataRow
            (
-           "Which Zebras are endangered?," +
-           "What is the aim of the Quagga Project?," +
-           "Which animals are some of their closest relatives?," +
-           "Which are the three species of zebras?," +
+           "Which Zebras are endangered?|" +
+           "What is the aim of the Quagga Project?|" +
+           "Which animals are some of their closest relatives?|" +
+           "Which are the three species of zebras?|" +
            "Which subgenus do the plains zebra and the mountain zebra belong to?",
            DisplayName = " Should pass with correct questions as input")]
         public void Test_if_Question_Extraction_pass(string questionsString)
@@ -75,10 +75,10 @@ namespace Sahaj.Wiki.Test
         [TestMethod]
         [DataRow
            (
-           "Which Zebras are endangered?," +
-           "What is the aim of the Quagga Project?," +
-           "Which animals are some of their closest relatives?," +
-           "Which are the three species of zebras?," +
+           "Which Zebras are endangered?|" +
+           "What is the aim of the Quagga Project?|" +
+           "Which animals are some of their closest relatives?|" +
+           "Which are the three species of zebras?|" +
            "Which subgenus do the plains zebra and the mountain zebra belong to?",
            DisplayName = " Should fail questions is null")]
         public void Test_if_Question_Extraction_Fail(string questionsString)
@@ -131,10 +131,10 @@ namespace Sahaj.Wiki.Test
            " The unique stripes of zebras make them one of the animals most familiar to people. " +
            "They occur in a variety of habitats, such as grasslands, savannas, woodlands, thorny scrublands, mountains, and coastal hills. However, various anthropogenic factors have had a severe impact on zebra populations, in particular, hunting for skins and habitat destruction. " +
            "Grévy's zebra and the mountain zebra are endangered. While plains zebras are much more plentiful, one subspecies - the Quagga - became extinct in the late 19th century. Though there is currently a plan, called the Quagga Project, that aims to breed zebras that are phenotypically similar to the Quagga, in a process called breeding back​.",
-           "Which Zebras are endangered?," +
-           "What is the aim of the Quagga Project?," +
-           "Which animals are some of their closest relatives?," +
-           "Which are the three species of zebras?," +
+           "Which Zebras are endangered?|" +
+           "What is the aim of the Quagga Project?|" +
+           "Which animals are some of their closest relatives?|" +
+           "Which are the three species of zebras?|" +
            "Which subgenus do the plains zebra and the mountain zebra belong to?",
            "subgenus Hippotigris; the plains zebra, the Grévy's zebra and the mountain zebra; horses and donkeys; aims to breed zebras that are phenotypically similar to the quagga; Grévy's zebra and the mountain zebra",
            DisplayName = " Input from File - Should Pass")]
@@ -189,7 +189,7 @@ namespace Sahaj.Wiki.Test
                 }
                 counter++;
             }
-            processWiki.Questions = string.Join(",", questionList);
+            processWiki.Questions = string.Join("|", questionList);
             file.Close();
             ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
             var result = paragraphMatcher.Result();
@@ -234,7 +234,7 @@ namespace Sahaj.Wiki.Test
                 }
                 counter++;
             }
-            processWiki.Questions = string.Join(",", questionList);
+            processWiki.Questions = string.Join("|", questionList);
             file.Close();
             ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
             var result = paragraphMatcher.Result();
@@ -244,5 +244,50 @@ namespace Sahaj.Wiki.Test
             Assert.AreEqual("the public sector, light and service industries and tourism", result["What does Wales' economy now depend on?"].Data);
             Assert.AreEqual("1925", result["When was Plaid Cymru formed?"].Data);
         }
+        [TestMethod]
+        [TestCategory("Smoke")]
+        [DeploymentItem("input", "TestData")]
+        public void Test_for_Input_File_Match_Testcase_input02()
+        {
+            ProcessWiki processWiki = new ProcessWiki();
+
+            int counter = 1;
+            string line;
+            string filePath = $@"{Path.GetFullPath(@"TestData")}/input02.txt";
+            List<string> questionList = new List<string>();
+            System.IO.StreamReader file =
+    new System.IO.StreamReader(filePath);
+            while ((line = file.ReadLine()) != null)
+            {
+                System.Console.WriteLine(line);
+                switch (counter)
+                {
+                    case 1:
+                        processWiki.Sentences = line.ToString();
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        questionList.Add(line.ToString().Trim());
+                        break;
+                    case 7:
+                        processWiki.Answers = line.ToString().Trim();
+                        break;
+                }
+                counter++;
+            }
+            processWiki.Questions = string.Join("|", questionList);
+            file.Close();
+            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
+            var result = paragraphMatcher.Result();
+            Assert.AreEqual("Jodhpur", result["Which is the second largest city in the Indian state of Rajasthan?"].Data);
+            Assert.AreEqual("for the bright, sunny weather it enjoys all the year round", result["Why is Jodhpur known as the \"Sun City\"?"].Data);
+            Assert.AreEqual("due to the vivid blue-painted houses around the Mehrangarh Fort", result["Why is Jodhpur known as the \"Blue City\"?"].Data);
+            Assert.AreEqual("Abhiras (Ahirs)", result["According to Rajasthan district Gazetteers of Jodhpur and the Hindu epic Ramayana, who were the original inhabitants of Jodhpur?"].Data);
+            Assert.AreEqual("5 November 1556", result["When did Hemu lose his life?"].Data);
+        }
+
     }
 }

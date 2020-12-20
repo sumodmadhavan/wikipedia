@@ -38,7 +38,7 @@ namespace Sahaj.Wiki
             try
             {
                 if (string.IsNullOrEmpty(Questions)) return false;
-                string[] questions = base.Questions.Split(',');
+                string[] questions = base.Questions.Split('|');
                 DatasetQuestion = new List<Question>();
                 foreach (string question in questions)
                 {
@@ -101,7 +101,6 @@ namespace Sahaj.Wiki
                                      .Cast<Match>()
                                      .Select(i => i.Value.ToLower())
                                      .Where(s => !wordstoIgnore.Any(i => i.Equals(s)));
-
                     int max = 0;
                     Answer answer = null;
                     for (int i = 0; i < DatasetSentence.Count; ++i)
@@ -122,13 +121,19 @@ namespace Sahaj.Wiki
                         }
                         if (score > max)
                         {
+                            int maxDistinct = 0;
                             foreach (Answer eachAnswer in DatasetAnswer)
                             {
+                                int distinctScore = 0;
                                 if (sentence.Contains(eachAnswer.Data.ToLower()))
                                 {
+                                    distinctScore += eachAnswer.Data.Length;
+                                }
+                                if (distinctScore>maxDistinct)
+                                {
+                                    maxDistinct = distinctScore;
                                     answer = eachAnswer;
                                     max = score;
-                                    break;
                                 }
                             }
                         }
