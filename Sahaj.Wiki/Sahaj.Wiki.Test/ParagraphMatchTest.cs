@@ -289,5 +289,49 @@ namespace Sahaj.Wiki.Test
             Assert.AreEqual("5 November 1556", result["When did Hemu lose his life?"].Data);
         }
 
+        [TestMethod]
+        [TestCategory("Smoke")]
+        [DeploymentItem("input", "TestData")]
+        public void Test_for_Input_File_Match_Testcase_input03()
+        {
+            ProcessWiki processWiki = new ProcessWiki();
+            int counter = 1;
+            string line;
+            string filePath = $@"{Path.GetFullPath(@"TestData")}/input03.txt";
+            List<string> questionList = new List<string>();
+            System.IO.StreamReader file =
+    new System.IO.StreamReader(filePath);
+            while ((line = file.ReadLine()) != null)
+            {
+                System.Console.WriteLine(line);
+                switch (counter)
+                {
+                    case 1:
+                        processWiki.Sentences = line.ToString();
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        questionList.Add(line.ToString().Trim());
+                        break;
+                    case 7:
+                        processWiki.Answers = line.ToString().Trim();
+                        break;
+                }
+                counter++;
+            }
+            processWiki.Questions = string.Join("|", questionList);
+            file.Close();
+            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
+            var result = paragraphMatcher.Result();
+            Assert.AreEqual("1917", result["When did Einstein apply the general theory of relativity to model the large-scale structure of the universe?"].Data);
+            Assert.AreEqual("the danger of nuclear weapons", result["What does the Russell–Einstein Manifesto highlight?"].Data);
+            Assert.AreEqual("more than 300 scientific papers", result["How many scientific papers did Einstein publish?"].Data);
+            Assert.AreEqual("Institute for Advanced Study in Princeton", result["Which institute in New Jersey was Einstein affiliated with?"].Data);
+            Assert.AreEqual("principle of relativity could also be extended to gravitational fields", result["What did Einstein realize, the principle of relativity could be extended to?"].Data);
+        }
+
     }
 }
