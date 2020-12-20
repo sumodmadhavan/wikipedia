@@ -332,6 +332,49 @@ namespace Sahaj.Wiki.Test
             Assert.AreEqual("Institute for Advanced Study in Princeton", result["Which institute in New Jersey was Einstein affiliated with?"].Data);
             Assert.AreEqual("principle of relativity could also be extended to gravitational fields", result["What did Einstein realize, the principle of relativity could be extended to?"].Data);
         }
+        [TestMethod]
+        [TestCategory("Smoke")]
+        [DeploymentItem("input", "TestData")]
+        public void Test_for_Input_File_Match_Testcase_input04()
+        {
+            ProcessWiki processWiki = new ProcessWiki();
+            int counter = 1;
+            string line;
+            string filePath = $@"{Path.GetFullPath(@"TestData")}/input04.txt";
+            List<string> questionList = new List<string>();
+            System.IO.StreamReader file =
+    new System.IO.StreamReader(filePath);
+            while ((line = file.ReadLine()) != null)
+            {
+                System.Console.WriteLine(line);
+                switch (counter)
+                {
+                    case 1:
+                        processWiki.Sentences = line.ToString();
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                        questionList.Add(line.ToString().Trim());
+                        break;
+                    case 7:
+                        processWiki.Answers = line.ToString().Trim();
+                        break;
+                }
+                counter++;
+            }
+            processWiki.Questions = string.Join("|", questionList);
+            file.Close();
+            ParagraphMatcher paragraphMatcher = new ParagraphMatcher(processWiki);
+            var result = paragraphMatcher.Result();
+            Assert.AreEqual("Coraciiformes", result["In which order are Kingfishers?"].Data);
+            Assert.AreEqual("Several fossil birds", result["Which birds have been have been erroneously ascribed to the kingfishers?"].Data);
+            Assert.AreEqual("Common Kingfisher", result["In Britain, what does the word 'kingfisher' normally refer to?"].Data);
+            Assert.AreEqual("by swooping down from a perch", result["How are fish usually caught by Kingfishers?"].Data);
+            Assert.AreEqual("Alcedines", result["In which suborder are Kingfishers now grouped?"].Data);
+        }
 
     }
 }
